@@ -69,8 +69,14 @@ class puppetboard::apache::conf (
   Optional[String] $ldap_bind_dn            = undef,
   Optional[String] $ldap_bind_password      = undef,
   Optional[String] $ldap_url                = undef,
-  Optional[String] $ldap_bind_authoritative = undef
+  Optional[String] $ldap_bind_authoritative = undef,
+  Boolean $enable_file_auth                 = false,
+  Optional[Stdlib::AbsolutePath] $auth_file = undef,
 ) inherits ::puppetboard::params {
+
+  if $enable_ldap_auth and $enable_file_auth {
+    fail('can enable either $enable_ldap_auth or $enable_file_auth')
+  }
 
   $docroot = "${basedir}/puppetboard"
 

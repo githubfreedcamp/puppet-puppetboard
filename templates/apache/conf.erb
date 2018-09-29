@@ -16,8 +16,10 @@ WSGIScriptAlias <%= @wsgi_alias -%> <%= @docroot -%>/wsgi.py
 <LocationMatch ^/puppetboard>
    AuthType Basic
    AuthName "Login to puppetboard"
-   Order Allow,Deny
-   Allow from All
+   <IfVersion < 2.4>
+     Order Deny,Allow
+     Allow from all
+   </IfVersion>
 
    AuthBasicProvider ldap
    <%- if @ldap_bind_dn -%>
@@ -32,6 +34,20 @@ WSGIScriptAlias <%= @wsgi_alias -%> <%= @docroot -%>/wsgi.py
    <%- if @ldap_bind_authoritative -%>
    AuthLDAPBindAuthoritative <%= @ldap_bind_authoritative -%>
    <%- end -%>
+   Require valid-user
+</LocationMatch>
+<% end -%>
+<% if @enable_file_auth -%>
+<LocationMatch ^/puppetboard>
+   AuthType Basic
+   AuthName "Login to puppetboard"
+   <IfVersion < 2.4>
+     Order Deny,Allow
+     Allow from all
+   </IfVersion>
+
+   AuthBasicProvider file
+   AuthUserFile <%= @auth_file %>
    Require valid-user
 </LocationMatch>
 <% end -%>
