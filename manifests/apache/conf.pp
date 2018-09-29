@@ -96,6 +96,7 @@ class puppetboard::apache::conf (
     owner   => 'root',
     group   => 'root',
     content => template('puppetboard/apache/conf.erb'),
+    seltype => 'httpd_config_t',
     require => File["${docroot}/wsgi.py"],
     notify  => Service[$::puppetboard::params::apache_service],
   }
