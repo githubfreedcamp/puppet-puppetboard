@@ -72,6 +72,7 @@ class puppetboard::apache::conf (
   Optional[String] $ldap_bind_authoritative = undef,
   Boolean $enable_file_auth                 = false,
   Optional[Stdlib::AbsolutePath] $auth_file = undef,
+  Boolean $disable_bytecode                 = false,
 ) inherits ::puppetboard::params {
 
   if $enable_ldap_auth and $enable_file_auth {

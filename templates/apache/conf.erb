@@ -1,6 +1,8 @@
+<% if @disable_bytecode -%>
+WSGIDontWriteBytecode On
+<% end -%>
 WSGIDaemonProcess puppetboard user=<%= @user -%> group=<%= @user -%> threads=<%= @threads %> maximum-requests=<%= @max_reqs %>
 WSGIScriptAlias <%= @wsgi_alias -%> <%= @docroot -%>/wsgi.py
-
 <Directory <%= @docroot -%>>
     WSGIProcessGroup puppetboard
     WSGIApplicationGroup %{GLOBAL}
